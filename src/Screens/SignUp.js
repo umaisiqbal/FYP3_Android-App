@@ -8,19 +8,19 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import {theme} from '../core/theme';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 import {auth} from '../../firebase';
-// GoogleSignin.configure({
-//   webClientId: '',
-// });
 
 export default function SignUp({navigation}) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setloggedIn] = useState(false);
-const [userInfo, setuserInfo] = useState([]);
+  const [userInfo, setuserInfo] = useState([]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -44,63 +44,35 @@ const [userInfo, setuserInfo] = useState([]);
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
-        '479262466021-n81ftr2oebojaas92tj7ina1lffjola1.apps.googleusercontent.com', 
-        offlineAccess: true, 
-        hostedDomain: '', 
-        forceConsentPrompt: true,
+        '479262466021-n81ftr2oebojaas92tj7ina1lffjola1.apps.googleusercontent.com',
+      offlineAccess: true,
+      hostedDomain: '',
+      forceConsentPrompt: true,
     });
   }, []);
 
-  const onGoogleButtonPress= async () => {
+  const onGoogleButtonPress = async () => {
     try {
-      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true }); // <-- Add this
-      const { idToken } = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      return auth().signInWithCredential(googleCredential);
-      // await GoogleSignin.hasPlayServices();
-      // const {accessToken, idToken} = await GoogleSignin.signIn();
-      // console.log('access token ----', accessToken,idToken);
-      // await GoogleSignin.hasPlayServices();
-      // const userInfo = await GoogleSignin.signIn();
-      // console.log('userInfo------',userInfo);
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true}); 
+      const userInfo = await GoogleSignin.signIn();
+      console.log('userInfo------', userInfo);
       setloggedIn(true);
     } catch (error) {
       console.log('error -------', error);
-      
-      // if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      //   // user cancelled the login flow
-      //   alert('Cancel');
-      // } else if (error.code === statusCodes.IN_PROGRESS) {
-      //   alert('Signin in progress');
-      //   // operation (f.e. sign in) is in progress already
-      // } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      //   alert('PLAY_SERVICES_NOT_AVAILABLE');
-      //   // play services not available or outdated
-      // } else {
-      //   // some other error happened
-      // }
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+        alert('Cancel');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        alert('Signin in progress');
+        // operation (f.e. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        alert('PLAY_SERVICES_NOT_AVAILABLE');
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
     }
   };
-  // = async () => {
-  //   try {
-  //     await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-  //     // Get the users ID token
-  //     const {idToken} = await GoogleSignin.signIn();
-  //     console.log('id token from google signup------', idToken);
-  //     // Create a Google credential with the token
-  //     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  //     console.log(
-  //       'google credentail from google provider-----',
-  //       googleCredential,
-  //     );
-  //     // Sign-in the user with the credential
-  //     return auth().signInWithCredential(googleCredential);
-  //   } catch (error) {
-  //     console.log('erorr from google----', error);
-  //   }
-  //   // Check if your device supports Google Play
-
-  // };
 
   return (
     <Background>
