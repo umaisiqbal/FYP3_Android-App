@@ -11,11 +11,15 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { auth } from '../../firebase'
+import { sendPasswordResetEmail } from 'firebase/auth'
+
 export default function LoginScreen({ navigation }) {
  
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [phone,setphone]=useState('')
+ 
+  const [showPassword, setShowPassword] = useState(true);
 
 
 
@@ -40,7 +44,24 @@ export default function LoginScreen({ navigation }) {
       
       .catch(error => alert(error.message))
   }
- 
+ const ResetPassword=()=>{
+if(email!=null){
+  sendPasswordResetEmail(auth,email)
+  .then(()=>{
+    alert("link sent")
+  })
+  .catch((error)=>{
+    const errorCode=error.code
+    const errorMessage=error.message
+    alert("please enter just email")
+  }
+  )
+  
+}
+else{
+  alert("please eter valid email")
+}
+ }
   return (
     <Background>
     
@@ -58,21 +79,26 @@ export default function LoginScreen({ navigation }) {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
+      
       <TextInput
-        label="Password"
-        returnKeyType="done"
-        value={password}
-        onChangeText={text => setPassword(text)}
-        // error={!!password.error}
-        // errorText={password.error}
-        secureTextEntry
-      />
-      <View style={styles.forgotPassword}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ResetPasswordScreen')}
+            style={styles.input}
+            placeholder="Password"
+            // autoComplete='current-password'
+            onChangeText={text => setPassword(text)}
+            value={password}
+            secureTextEntry={showPassword ? true : false}
+          />
+    
+        <TouchableOpacity style={styles.button3} onPress={() => setShowPassword(!showPassword)}>
+        <Text style={styles.buttonText}>{showPassword ? 'Show Password' : 'Hide Password'}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+          onPress={ResetPassword}
         >
-          <Text style={styles.forgot}>Forgot your password?</Text>
+          <Text style={styles.forgot}>Forgot your password? click here</Text>
         </TouchableOpacity>
+      <View style={styles.forgotPassword}>
+
       </View>
       <Button mode="contained" onPress={handleLogin}>
         Login
@@ -116,105 +142,4 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
 })
-/// Rough screen
 
-// import React, { useState } from 'react'
-// import { TouchableOpacity, StyleSheet, View } from 'react-native'
-// import { Text } from 'react-native-paper'
-// import Background from '../components/Background'
-// import Logo from '../components/Logo'
-// import Header from '../components/Header'
-// import Button from '../components/Button'
-// import TextInput from '../components/TextInput'
-// import BackButton from '../components/BackButton'
-// import { theme } from '../core/theme'
-// import { emailValidator } from '../helpers/emailValidator'
-// import { passwordValidator } from '../helpers/passwordValidator'
-
-// export default function LoginScreen({ navigation }) {
-//   const [email, setEmail] = useState({ value: '', error: '' })
-//   const [password, setPassword] = useState({ value: '', error: '' })
-
-//   const onLoginPressed = () => {
-//     const emailError = emailValidator(email.value)
-//     const passwordError = passwordValidator(password.value)
-//     if (emailError || passwordError) {
-//       setEmail({ ...email, error: emailError })
-//       setPassword({ ...password, error: passwordError })
-//       return
-//     }
-//     navigation.reset({
-//       index: 0,
-//       routes: [{ name: 'LogOut' }],
-//     })
-//   }
-
-//   return (
-//     <Background>
-//       <BackButton goBack={navigation.goBack} />
-//       <Logo />
-//       <Header>Welcome back.</Header>
-//       <TextInput
-//         label="Enter OTP"
-//         returnKeyType="next"
-//         value={email.value}
-//         onChangeText={(text) => setEmail({ value: text, error: '' })}
-//         error={!!email.error}
-//         errorText={email.error}
-//         autoCapitalize="none"
-//         autoCompleteType="email"
-//         textContentType="emailAddress"
-//         keyboardType="email-address"
-//       />
-//         <Button mode="contained" onPress={onLoginPressed}>
-//       Enter OTP
-//     </Button>
-//       <TextInput
-//         label="Password"
-//         returnKeyType="done"
-//         value={password.value}
-//         onChangeText={(text) => setPassword({ value: text, error: '' })}
-//         error={!!password.error}
-//         errorText={password.error}
-//         secureTextEntry
-//       />
-//       {/* <View style={styles.forgotPassword}>
-//         <TouchableOpacity
-//           onPress={() => navigation.navigate('ResetPasswordScreen')}
-//         >
-//           <Text style={styles.forgot}>Forgot your password?</Text>
-//         </TouchableOpacity>
-//       </View> */}
-    
-//       <Button mode="contained" onPress={onLoginPressed}>
-//         Login with Phone Number
-//       </Button>
-//       <View style={styles.row}>
-//         <Text>Don’t have an account? </Text>
-//         <TouchableOpacity onPress={() => navigation.replace('SignUp')}>
-//           <Text style={styles.link}>Sign up</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </Background>
-//   )
-// }
-
-// const styles = StyleSheet.create({
-//   forgotPassword: {
-//     width: '100%',
-//     alignItems: 'flex-end',
-//     marginBottom: 24,
-//   },
-//   row: {
-//     flexDirection: 'row',
-//     marginTop: 4,
-//   },
-//   forgot: {
-//     fontSize: 13,
-//     color: theme.colors.secondary,
-//   },
-//   link: {
-//     fontWeight: 'bold',
-//     color: theme.colors.primary,
-//   },
-// })

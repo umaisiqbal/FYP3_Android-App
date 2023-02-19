@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import navigationStrings from "../constants/navigationStrings";
 import { EditProfile, Home, NewsPaper, ProductDetails, Profile,LoginScreen } from "../Screens";
+import LatestNews from "../Screens/LatestNews";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ export default function HomeStack() {
         component={Home}
     />
     <Stack.Screen component={NewsPaper} name="NewsPaper" />
- 
+    <Stack.Screen name={navigationStrings.LATESTNEWS} component={LatestNews} />
       </Stack.Navigator>
     );
   }

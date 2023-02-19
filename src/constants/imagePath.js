@@ -13,5 +13,7 @@ export default{
     icDiversity: require('../assests/images/diversity.png'),
     icCustomer: require('../assests/images/customer-support.png'),
     icHistory: require('../assests/images/history.png'),
-    icLog: require('../assests/images/logout.png')
+    icLog: require('../assests/images/logout.png'),
+    icback: require('../assests/images/back.png'),
+    icnoti: require('../assests/images/noti.png')
 }

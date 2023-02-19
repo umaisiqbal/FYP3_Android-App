@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 export default function ProfileStack() {
     return (
       <Stack.Navigator screenOptions={{headerShown:false}}>
-      <Stack.Screen name={navigationStrings.AUDIOS} component={Audios}/>
+      {/* <Stack.Screen name={navigationStrings.AUDIOS} component={Audios}/> */}
 
       </Stack.Navigator>
     );

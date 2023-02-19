@@ -10,6 +10,9 @@ import LoginScreen from '../Screens/LoginScreen'
 import { createStackNavigator } from '@react-navigation/stack'
 // import DrawerNav from './DrawerNav'
 import SignUp from '../Screens/SignUp'
+import LatestNews from '../Screens/LatestNews'
+import NewsDetails from '../Screens/NewsDetails'
+import CategoryNews from '../Screens/CategoryNews'
 
 // export default function (Stack) {
 //   return (
@@ -52,6 +55,8 @@ function MainStack() {
       <Stack.Screen name={navigationStrings.LOGINSCREEN} component={LoginScreen} />
       <Stack.Screen name={navigationStrings.SIGNUP} component={SignUp} />
       <Stack.Screen name={navigationStrings.PHONESIGNUP} component={PhoneSignUp} />
+      <Stack.Screen name={navigationStrings.NEWSDETAILS} component={NewsDetails} />
+      <Stack.Screen name={navigationStrings.CATEGORYNEWS} component={CategoryNews} />
       <Stack.Screen
         name={navigationStrings.HOME}
         component={TabRoutes}

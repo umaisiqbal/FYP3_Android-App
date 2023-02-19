@@ -1,167 +1,180 @@
-import { StyleSheet,Text,View,ScrollView } from 'react-native'
-import {React,useState,useEffect} from 'react'
-// import firebase from 'firebase/compat/app';
-import firebase from 'firebase/compat';
-import { auth } from '../../firebase';
-import Background from '../components/Background'
+
 import Button from '../components/Button'
-import TextInput from '../components/TextInput'
+import firebase from 'firebase/compat/app';
 import { theme } from '../core/theme'
-import {db} from '../../firebase'
-import 'firebase/firestore';
-import 'firebase/auth';
-import firestore from 'firebase/firestore';
+import TextInput from '../components/TextInput'
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, FlatList,StyleSheet } from 'react-native'
+import { auth } from '../../firebase'
 
-
-import { addDoc, collection, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
-export default function Feedback() {}
-  // const [question, setQuestion] = useState('')
-  // const [list, setList] = useState([])
- 
-
- // const ref= firebase.database().collection(auth.currentUser.uid,)
-//  useEffect(()=>{
-
-//   return ref.onSnapshot(querySnapshot=>{
-//     const list=[] 
-//     querySnapshot.forEach(doc=>{
-//       list.push({
-//         id:doc.data().id,
-//         questions:doc.data().questions,
-//         complete:doc.data().complete
-        
-//       })
-//       console.log(list)
-//      })
-//      setList(list)
-//   })
-  
-//  },[])
-//  const onSubmitPress=async()=>{
-//   console.log(db)
-//   await ref.add ({
-//     questions:question,
-//     //  complete:true
-//    })
-//    console.log(question)
-//    fetchData()
-//    setQuestion('')
-//  }
-
- 
-//   return (
-    
-//     <Background>
-//           <Text style={styles.link}>Your Feedback</Text>
-
-//           <TextInput
-//              label="Enter"
-//              returnKeyType="next"
-//         value={question}
-//         onChangeText={setQuestion}
-//         style={styles.TextInput}/>
-
-
-
-//           {/* <TextInput
-           
-//               returnKeyType="next" /> */}
-//                {/* <TextInput
-//               label="Paste Content"
-//               returnKeyType="next" /> */}
-//               {/* <TouchableOpacity
-//         onPress={onSubmitPress}
-//         style={styles.Button}>
-//           <Text style={{color:'white',fontSize:21}}>Submit</Text>
-//         </TouchableOpacity> */}
-//           <Button
-//               mode="contained"
-//               onPress={onSubmitPress}
-//               style={{ 
-                
-//                 marginTop: 24  }}
-//           >
-//               Submit?
-              
-//           </Button> 
-       
-// </Background>
-    
-//   )
-// }
-// const styles=StyleSheet.create({
-
-   
-//     container:{
-//         paddingLeft:10,
-//         paddingBottom:20,
-//         paddingRight:20,
-//         borderRadius:10,
-//         backgroundColor:"lightblue",
-//         marginTop:20,
-        
-
-//         // alignItems:"center",
-//         // justifyContent:"center"
-//         },
-    
-  
- 
+const Feedback = () => {
+  const user=auth.currentUser.uid;
+    const itemRef = firebase.database().ref(user+"/Feedback" )
+      const [email, setEmail] = useState('')
+      const [name, setName] = useState('')
+      const [text, setText] = useState('')
+      const [list, setList] = useState([])
       
-//     link: {
-//        marginLeft:10,
-//         marginTop:40,
-//         fontSize:18,
-//         fontWeight: 'bold',
-//         color: theme.colors.primary,
-//       },
+      let [isUpdating, setIsUpdating] = useState(false)
+      let [currentKey, setCurrentKey] = useState('')
+  
+  
+      useEffect(() => {
+          fetchData()
+      }, [])
+  
+      function addHandle() {
+          if (isUpdating) {
+              itemRef.child(currentKey).update({ name,text, email});
+              fetchData()
+              setText('')
+              setEmail('')
+              setName('')
+          }
+          if (!isUpdating) {
+              itemRef.push({ text,email,name });
+              fetchData()
+              setText('')
+              setEmail('')
+              setName('')
+          }
+          alert("Feedback sent to Admin")
+      }
+  
+      let item = [];
+     
+      function fetchData() {
+          itemRef.on('value', function (snap) {
+              // console.log(snap)
+              let a_ = snap.val();
+              for (let x in a_) {
+                  console.log(x)
+                  console.log(a_[x])
+                  item.push({ text: a_[x].text, key: x ,email:a_[x].email,   name: a_[x].name})
+              }
+              setList(item)
+          })
+      }
+  
+      function handleUpdate(key, text,email,name) {
+          setCurrentKey(key)
+          setIsUpdating(true)
+          setText(text)
+          setEmail(email)
+          setName(name)
+  
+  
+      }
+      function handleDelete(key) {
+          itemRef.child(key).remove()
+          fetchData()
+      }
+  
+  
+      return (
+        
+          <View style={{ flex: 1, padding: 10 }}>
+
+
+          {console.log(list)}
+
+          <Text style={styles.link}>Help Us Improved!</Text>
+          <Text style={styles.link1}>What do you think about this App?</Text>
+          <Text style={styles.link2}>Fill the form</Text>
+          <TextInput
+            label="Enter Name"
+            returnKeyType="next"
+            value={name} onChangeText={(e) => { setName(e); } } />
+          <TextInput
+            label="Enter Email"
+            returnKeyType="next"
+            value={email} onChangeText={(e) => { setEmail(e); } } />
+          <TextInput
+            label="Your Feedback"
+            returnKeyType="next"
+            value={text} onChangeText={(e) => { setText(e); } } />
+
+          <Button
+            mode="contained"
+
+            style={{
+              marginTop: 24
+            }}
+            title={isUpdating ? 'Update' : 'Add'} onPress={addHandle}>Send</Button>
+          <ScrollView>
+            {list.map((item, index) => {
+              console.log(item);
+              return (
+                <><View style={{  padding: 5, borderWidth: 0.34, margin: 10 }}>
+                  <Text style={{ title: 'Name', flex: 0.90,color: "black" }}>Name:{'\t'}{'\t'} {item.name}</Text>
+                  <Text style={{ flex:0.90,color: "black" }}>Email:{'\t'}{'\t'} {item.email}</Text>
+                  <Text style={{ title: 'Name',  color: "black" }}>{'\n'}{'\n'}Feedback:{'\n'}{'\n'}  {item.text}</Text>
+                </View><View>
+                    <Button style={styles.button} onPress={() => handleUpdate(item.key, item.text, item.email,item.name)}><Text>Update</Text></Button>
+                    <Button style={styles.button1}  onPress={() => handleDelete(item.key)}><Text >Delete</Text></Button>
+                  </View></>
+              );
+            })}
+          </ScrollView>
+        </View>
+
+ 
+      )
+  }
+  
+  export default Feedback
+  const styles=StyleSheet.create({
+
+    checkboxContainer: {
+      flexDirection: 'row',
+      marginBottom: 20,
+    },
+    checkbox: {
+      alignSelf: 'center',
+    },
+    button:{
+     marginTop:-10,
+     marginBottom:-22
+    },
+    button1:{
+      marginTop:2,
+      paddingTop:-230
+     },
+    container:{
+        paddingLeft:10,
+        paddingBottom:20,
+        paddingRight:20,
+        borderRadius:10,
+        backgroundColor:"lightblue",
+        marginTop:20,
+        },
     
-//   })
-// firestore()
-//   .collection('Start')
-//   .add({
-//     fname: this.state.fname,
-//     lname: this.state.lname,
-//     email: this.state.email,
-//     key: count
-//   })
-//   .then(() => {
-//     console.log('User added!');
-//   });
-
-// return (
-//   <View style={styles.container}>
-//     <Button style={{backgroundColor:'black'}} title='Create New Doc' onPress={Create}></Button>
-//     <Button title='Read Doc' onPress={Read}></Button>
-//     {
-//       userDoc != null &&
-//       <Text>Bio: {userDoc.bio}</Text>
-//     }
-//     <TextInput style={{
-//       width: '95%',
-//       fontSize: 18,
-//       padding: 12,
-//       borderColor: 'gray',
-//       borderWidth: 0.2,
-//       borderRadius: 10,
-//       marginVertical: 20
-//     }} placeholder='Type Here' onChangeText={(text) => { setText(text) }} value={text}></TextInput>
-
-//     <Button title='Update Doc' onPress={() => {
-//       Update({
-//         "bio": text
-//       }, true)
-//     }} disabled={text == ""}></Button>
-//     <Button title='Delete Doc' onPress={Delete}></Button>
-//   </View>
-// );
-// }
-
-// const styles = StyleSheet.create({
-// container: {
-//   flex: 1,
-//   backgroundColor: '#fff',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// },
-// });
+        link: { 
+         fontFamily:"fantasy",
+         fontWeight:"bold",
+         fontSize: 17,
+          color: theme.colors.primary,
+          textAlign: 'center',
+         
+        },
+        link1: {
+          fontFamily:"fantasy",
+          fontWeight:"bold",
+          marginTop:10,
+          fontSize: 13,
+           color: "green",
+           textAlign: 'center',
+          
+         },
+         link2: {
+          fontFamily:"fantasy",
+          fontWeight:"bold",
+          marginTop:10,
+          fontSize: 15,
+      textDecorationLine: 'underline',
+           color: theme.colors.primary,
+           textAlign: 'center',
+          
+         },
+   
+  })

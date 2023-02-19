@@ -16,13 +16,67 @@ import LoginScreen from '../Screens/NewsPaper';
 import Audio from '../Screens';
 import ProfileStack from './ProfileStack';
 import DrawerNav from './DrawerNav';
+import LatestNews from '../Screens/LatestNews';
+import TrendingNews from '../Screens/TrendingNews';
+import SearchedNews from '../Screens/SearchedNews';
+import SearchedVideo from '../Screens/SearchedVideo';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
+const HomeStacks = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={DrawerNav}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="TrendingNews"
+        component={TrendingNews}
+        options={({route}) => ({
+          title: route.params?.title,
+        })}
+      />
+        <Stack.Screen
+        name="SearchedNews"
+        component={SearchedNews}
+        options={({route}) => ({
+          title: route.params?.title,
+        })}
+      />
+      <Stack.Screen
+        name="LatestNews"
+        component={LatestNews}
+        options={({route}) => ({
+          title: route.params?.title,
+        })}
+      />
+    
+    </Stack.Navigator>
+  );
+};
+const LiveStacks = () => {
+  <Stack.Navigator>
+     <Stack.Screen
+  name="Live"
+  component={Live}
+  options={{headerShown: false}}
+/>
+  <Stack.Screen
+  name="SearchedVideo"
+  component={SearchedVideo}
+  options={({route}) => ({
+    title: route.params?.title,
+  })}
+/>
+ 
+</Stack.Navigator>
+}
 export default function TabRoutes() {
   
   return (
        <>
+       
           <Tab.Navigator
           
       screenOptions={{
@@ -35,7 +89,7 @@ export default function TabRoutes() {
 
       }}
     > 
-      <Tab.Screen name={navigationStrings.HOME} component={DrawerNav} options={{
+      <Tab.Screen name={navigationStrings.HOME} component={HomeStacks} options={{
        
           headerShown: false,
         tabBarIcon: ({ focused }) => {
@@ -58,7 +112,7 @@ export default function TabRoutes() {
           );
         }
       }} />
-      <Tab.Screen name={navigationStrings.LIVE} component={Live} options={{
+      <Tab.Screen name={navigationStrings.LIVE} component={LiveStack} options={{
         tabBarIcon: ({ focused }) => {
           return (
             <Image

@@ -51,6 +51,7 @@ const [loading,setloading]=useState(false);
         console.log('response data----', response);
         setloading(false);
         Alert.alert('Otp Has been Verified');
+        navigation.replace('Home');
       } catch (error) {
         console.log('Invalid code.');
       }

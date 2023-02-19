@@ -6,18 +6,35 @@ import { theme } from '../core/theme'
 import Background from '../components/Background'
 import { NavigationHelpersContext } from '@react-navigation/native'
 import Drawers from './Drawers'
+
+
 const Home = ({navigation}) => {
+  const LatestNews = () => {
+    navigation.replace('LatestNews');
+  };
+  const TrendingNews = () => {
+    navigation.replace('TrendingNews');
+  };
+  const SearchedNews = () => {
+    navigation.replace('SearchedNews');
+  };
   return (
     
     <View style={styles.container}>
      <Background>
- 
+
       <StatusBar style="auto" />
-      <Text style={styles.text}>TrendingNews</Text>
+      <Button
+        mode="contained"
+        onPress={TrendingNews}
+        style={{marginTop: 10}}>
+     Trending
+      </Button>
       <Swiper
         loop
         autoplay
       >
+        
         <Image
           source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMij4U5yopHHemvHV5D-xxuvAoIu8lSwXwgg&usqp=CAU' }}
           resizeMode="cover"
@@ -27,7 +44,12 @@ const Home = ({navigation}) => {
           resizeMode="cover"
           style={styles.image} />
       </Swiper>
-      <Text style={styles.text}>Popular Searched</Text>
+      <Button
+        mode="contained"
+        onPress={SearchedNews}
+        style={{marginTop: 10}}>
+     Searched News
+      </Button>
       <Swiper
 
         loop
@@ -43,7 +65,12 @@ const Home = ({navigation}) => {
           resizeMode="cover"
           style={styles.image} />
       </Swiper>
-      <Text style={styles.text}>Latest News</Text>
+      <Button
+        mode="contained"
+        onPress={LatestNews}
+        style={{marginTop: 10}}>
+     Latest News
+      </Button>
       <Swiper
         loop
         autoplay
@@ -106,7 +133,7 @@ const styles=StyleSheet.create({
       // alignItems:"center",
       width:360,
       marginLeft:1,
-      height:164,
+      height:120,
      
       
     }

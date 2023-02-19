@@ -18,5 +18,13 @@ CATEGORIES:"Categories",
 SUPPORT:"Support",
 FEEDBACK:"Feedback",
 HISTORY:"History",
-PHONESIGNUP:"PhoneSignUp"
+PHONESIGNUP:"PhoneSignUp",
+LATESTNEWS:"LatestNews",
+LATESTVIDEO:"LatestVideo",
+TRENDINGNEWS:"TrendingNews",
+SEARCHEDNEWS:"SearchedNews",
+TRENDINGVIDEO:"TrendingVideo",
+SEARCHEDVIDEO:"SearchedVideo",
+NEWSDETAILS:"NewsDetails",
+CATEGORYNEWS:"CategoryNews"
     }

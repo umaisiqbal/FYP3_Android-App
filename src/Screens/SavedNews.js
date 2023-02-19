@@ -1,85 +1,148 @@
-
-
+import { View, Text,StyleSheet, ScrollView,KeyboardAvoidingView } from 'react-native'
+import  {React,useEffect,useState} from 'react'
 import firebase from 'firebase/compat/app';
+import TextInput from '../components/TextInput'
 import { theme } from '../core/theme'
-
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, Button, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import Background from '../components/Background'
+import Button from '../components/Button'
 import { auth } from '../../firebase'
+
 const SavedNews = () => {
-  const itemRef = firebase.database().ref('/last')
-      const [text, setText] = useState('')
-      const [list, setList] = useState([])
-      let [isUpdating, setIsUpdating] = useState(false)
-      let [currentKey, setCurrentKey] = useState('')
+  const user=auth.currentUser.uid;
+  const itemRef = firebase.database().ref(user+"/Feedback" )
+    const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
+    const [text, setText] = useState('')
+    const [listt, setListt] = useState([])
+    
+    let [isUpdating, setIsUpdating] = useState(false)
+    let [currentKey, setCurrentKey] = useState('')
+
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    function addHandle() {
+        if (isUpdating) {
+            itemRef.child(currentKey).update({ name,text, email});
+            fetchData()
+            setText('')
+            setEmail('')
+            setName('')
+        }
+        if (!isUpdating) {
+            itemRef.push({ text,email,name });
+            fetchData()
+            setText('')
+            setEmail('')
+            setName('')
+        }
+        alert("Feedback sent to Admin")
+    }
+
+    let item = [];
+   
+    function fetchData() {
+        itemRef.on('value', function (snap) {
+            // console.log(snap)
+            let a_ = snap.val();
+            for (let x in a_) {
+                console.log(x)
+                console.log(a_[x])
+                item.push({ text: a_[x].text, key: x ,email:a_[x].email,   name: a_[x].name})
+            }
+            setListt(item)
+        })
+    }
+
+    function handleUpdate(key, text,email,name) {
+        setCurrentKey(key)
+        setIsUpdating(true)
+        setText(text)
+        setEmail(email)
+        setName(name)
+
+
+    }
+    function handleDelete(key) {
+        itemRef.child(key).remove()
+        fetchData()
+    }
+
+
+      
+  return (    <Background>
+    
+    {console.log(listt)}
+
+     <ScrollView>
+            {listt.map((item, index) => {
+              console.log(item);
+              return (
+                <><View style={{  padding: 5, borderWidth: 0.34, margin: 10 }}>
+                  <Text style={{ title: 'Name', flex: 0.90,color: "black" }}>Summary:{'\t'}{'\t'} {item.name}</Text>
+                  {/* <Text style={{ flex:0.90,color: "black" }}>Email:{'\t'}{'\t'} {item.email}</Text>
+                  <Text style={{ title: 'Name',  color: "black" }}>{'\n'}{'\n'}Feedback:{'\n'}{'\n'}  {item.text}</Text> */}
+                </View><View>
+                  
+                    <Button style={styles.button1}  onPress={() => handleDelete(item.key)}><Text >Delete</Text></Button>
+                  </View></>
+              );
+            })}
+          </ScrollView>
+      </Background>
+  )
+}
+
+export default SavedNews
+const styles = StyleSheet.create({
+    rows: {
+      flexDirection: 'row',
+      marginTop: 4,
+      marginLeft:90
+    },
+    Text:{
+        color:"black",
+    },
+    button:{
+      marginTop:-10,
+      marginBottom:-22
+     },
+     button1:{
+       marginTop:2,
+       paddingTop:-230
+      },
+      link: { 
+        fontFamily:"fantasy",
+        fontWeight:"bold",
+        fontSize: 17,
+         color: theme.colors.primary,
+         textAlign: 'center',
+        
+       },
+       link1: {
+         fontFamily:"fantasy",
+         fontWeight:"bold",
+         marginTop:10,
+         fontSize: 13,
+          color: "green",
+          textAlign: 'center',
+         
+        },
+        link2: {
+         fontFamily:"fantasy",
+         fontWeight:"bold",
+         marginTop:10,
+         fontSize: 15,
+     textDecorationLine: 'underline',
+          color: theme.colors.primary,
+          textAlign: 'center',
+         
+        },
+
+    Button:{
+
+    }
+  })
   
-  
-      useEffect(() => {
-          fetchData()
-      }, [])
-  
-      function addHandle() {
-          if (isUpdating) {
-              itemRef.child(currentKey).update({ text });
-              fetchData()
-              setText('')
-          }
-          if (!isUpdating) {
-              itemRef.push({ text });
-              fetchData()
-              setText('')
-          }
-  
-      }
-  
-      let item = [];
-      function fetchData() {
-          itemRef.on('value', function (snap) {
-              // console.log(snap)
-              let a_ = snap.val();
-              for (let x in a_) {
-                  console.log(x)
-                  console.log(a_[x])
-                  item.push({ text: a_[x].text, key: x })
-              }
-              setList(item)
-          })
-      }
-  
-      function handleUpdate(key, text) {
-          setCurrentKey(key)
-          setIsUpdating(true)
-          setText(text)
-  
-  
-      }
-      function handleDelete(key) {
-          itemRef.child(key).remove()
-          fetchData()
-      }
-  
-  
-      return (
-          <View style={{ flex: 1, padding: 10 }}>
-              {
-                  console.log(list)
-              }
-              <TextInput style={{ borderWidth: 0.34, marginBottom: 10 }} value={text} onChangeText={(e) => { setText(e) }} />
-              <Button title={isUpdating ? 'Update' : 'Add'} onPress={addHandle} />
-              <ScrollView>
-                  {list.map((item, index) => {
-                      console.log(item)
-                      return (
-                          <View style={{ flexDirection: 'row', padding: 5, borderWidth: 0.34, margin: 10 }}>
-                              <Text style={{ flex: 0.70 }}>{item.text}</Text>
-                              <TouchableOpacity onPress={() => handleUpdate(item.key, item.text)}><Text style={{ flex: 0.15 }} >Update</Text></TouchableOpacity>
-                              <TouchableOpacity onPress={() => handleDelete(item.key)}><Text style={{ flex: 0.15 }}>Delete</Text></TouchableOpacity>
-                          </View>
-                      )
-                  })}
-              </ScrollView>
-          </View>
-      )
-  }
-  
-  export default SavedNews

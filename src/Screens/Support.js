@@ -1,108 +1,30 @@
-import { View,StyleSheet,TouchableOpacity, Text,Image } from 'react-native'
-import {React,useState,useEffect} from 'react'
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Feather } from '@expo/vector-icons';
-import Background from '../components/Background'
-import Button from '../components/Button'
-import Logo from '../components/Logo'
-import Paragraph from '../components/Paragraph'
-import TextInput from '../components/TextInput'
-import { theme } from '../core/theme'
-import {db} from '../../firebase'
-import 'firebase/firestore';
-import 'firebase/auth';
-import imagePath from '../constants/imagePath';
-import firebase from 'firebase/compat';
-import { auth } from '../../firebase';
-export default function Support() {
-  const [support, setSupport] = useState('')
-  const [list, setList] = useState([])
-  const ref= firebase.firestore().collection(auth.currentUser.uid,)
-
-  
- useEffect(()=>{
-
-  return ref.onSnapshot(querySnapshot=>{
-    const list=[] 
-    querySnapshot.forEach(doc=>{
-      list.push({
-        id:doc.data(),
-        supports:doc.data().supports,
-        // complete:doc.data().complete
-        
-      })
-      console.log(list)
-     })
-     setList(list)
-  })
-  
- },[])
- const onSubmitPress=async()=>{
-  console.log(db)
-  await ref.add ({
-    supports:support,
-    //  complete:true
-   })
-   console.log(supports)
-   setSupport('')
- }
-
-  return (
-    
-    <Background>
-          <Text style={styles.link}>Hello, how can we help you?</Text>
-
-          <TextInput
-              label="Enter Subject"
-              returnKeyType="next" 
-              value={support}
-              onChangeText={setSupport}/>
-               {/* <TextInput
-              label="Description"
-              returnKeyType="next" /> */}
-          <Button
-              mode="contained"
-            onPress={onSubmitPress}
-              style={{ 
-                
-                marginTop: 24  }}
-          >
-              Submit?
-              
-          </Button>
+import { View, Text ,StyleSheet} from 'react-native'
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native'
+import {WebView} from "react-native-webView"
+import { Linking } from 'react-native';
+import Button from '../components/Button';
+import {theme} from '../core/theme';
+export default function Support(){
+  return(
+    <View style={{flex:1, justifyContent:"center"}}>
+      <Text style={styles.link}>For Live Chat with Admin Click below button</Text>
+      <Button
+        mode="contained"
+        onPress={() => Linking.openURL('https://tawk.to/chat/63ecd134c2f1ac1e20336955/1gpah2e9q')}>
       
-</Background>
-    
-  )
-}
-const styles=StyleSheet.create({
-
-   
-    container:{
-        paddingLeft:10,
-        paddingBottom:20,
-        paddingRight:20,
-        borderRadius:10,
-        backgroundColor:"lightblue",
-        marginTop:20,
-        
-
-        // alignItems:"center",
-        // justifyContent:"center"
-        },
-    
-  
- 
-      
-    link: {
-       marginLeft:10,
-        marginTop:40,
-        fontSize:18,
-        fontWeight: 'bold',
-        color: theme.colors.primary,
-      },
-    
-  })
+      Live Chat
+      </Button>
+    </View>
+    )
+}const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    marginTop: 4,
+  },
+  link: {
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+  },
+});

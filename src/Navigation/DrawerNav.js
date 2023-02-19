@@ -12,18 +12,20 @@ import SavedNews from '../Screens/SavedNews';
 import Categories from '../Screens/Categories';
 import Support from '../Screens/Support';
 import Feedback from '../Screens/Feedback';
-import History from '../Screens/History';
+import Notifications from '../Screens/Notifications';
 import UserGuide from '../Screens/UserGuide';
+import { createStackNavigator } from '@react-navigation/stack'
+import LatestNews from '../Screens/LatestNews';
 const Drawer = createDrawerNavigator();
-
+const Stack = createStackNavigator();
 function DrawerNav() {
   return (
-    <Drawer.Navigator
+    <><Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: "white",
-        drawerActiveTintColor:"black",
+        drawerActiveTintColor: "black",
         drawerLabelStyle: {
           marginLeft: -20,
         },
@@ -32,9 +34,9 @@ function DrawerNav() {
         name={navigationStrings.NEWSPAPER}
         component={Home}
         options={{
-          headerShown:true,
+          headerShown: true,
           title: 'Dashboard',
-          drawerIcon:  ({ focused }) => {
+          drawerIcon: ({ focused }) => {
             return (
               <Image
                 style={{
@@ -43,14 +45,13 @@ function DrawerNav() {
                 source={imagePath.icHome} />
             );
           }
-        }}
-      />
-  <Drawer.Screen
+        }} />
+      <Drawer.Screen
         name={navigationStrings.SAVEDNEWS}
         component={SavedNews}
         options={{
-          headerShown:true,
-          title: 'Saved News',
+          headerShown: true,
+          title: 'Saved Summary',
           drawerIcon: ({ focused }) => {
             return (
               <Image
@@ -60,13 +61,12 @@ function DrawerNav() {
                 source={imagePath.icSave} />
             );
           }
-        }}
-      />
-       <Drawer.Screen
+        }} />
+      <Drawer.Screen
         name={navigationStrings.CATEGORIES}
         component={Categories}
         options={{
-          headerShown:true,
+          headerShown: true,
           title: 'Categories',
           drawerIcon: ({ focused }) => {
             return (
@@ -77,13 +77,12 @@ function DrawerNav() {
                 source={imagePath.icDiversity} />
             );
           }
-        }}
-      />
-       <Drawer.Screen
+        }} />
+      <Drawer.Screen
         name={navigationStrings.SUPPORT}
         component={Support}
         options={{
-          headerShown:true,
+          headerShown: true,
           title: 'Support',
           drawerIcon: ({ focused }) => {
             return (
@@ -94,13 +93,12 @@ function DrawerNav() {
                 source={imagePath.icCustomer} />
             );
           }
-        }}
-      />
-       <Drawer.Screen
+        }} />
+      <Drawer.Screen
         name={navigationStrings.FEEDBACK}
         component={Feedback}
         options={{
-          headerShown:true,
+          headerShown: true,
           title: 'Feedback',
           drawerIcon: ({ focused }) => {
             return (
@@ -111,30 +109,28 @@ function DrawerNav() {
                 source={imagePath.icUserA} />
             );
           }
-        }}
-      />
-       <Drawer.Screen
+        }} />
+      <Drawer.Screen
         name={navigationStrings.HISTORY}
-        component={History}
+        component={Notifications}
         options={{
-          headerShown:true,
-          title: 'History',
+          headerShown: true,
+          title: 'Notifications',
           drawerIcon: ({ focused }) => {
             return (
               <Image
                 style={{
                   tintColor: focused ? 'purple' : '#924FF2'
                 }}
-                source={imagePath.icHistory} />
+                source={imagePath.icnoti} />
             );
           }
-        }}
-      />
-       <Drawer.Screen
+        }} />
+      <Drawer.Screen
         name={navigationStrings.USERGUIDE}
         component={UserGuide}
         options={{
-          headerShown:true,
+          headerShown: true,
           title: 'User Guide',
           drawerIcon: ({ focused }) => {
             return (
@@ -145,13 +141,12 @@ function DrawerNav() {
                 source={imagePath.icuserUserMa} />
             );
           }
-        }}
-      />
-       <Drawer.Screen
+        }} />
+      <Drawer.Screen
         name={navigationStrings.LOGOUT}
         component={LogOut}
         options={{
-          headerShown:true,
+          headerShown: true,
           title: 'SigOut',
           drawerIcon: ({ focused }) => {
             return (
@@ -162,10 +157,9 @@ function DrawerNav() {
                 source={imagePath.icUserA} />
             );
           }
-        }}
-      />
-    
-    </Drawer.Navigator>
+        }} />
+
+    </Drawer.Navigator></>
   );
 }
 

@@ -12,6 +12,7 @@ export default function LandingStack() {
       <Stack.Navigator screenOptions={{headerShown:false}}>
         <Stack.Screen name={navigationStrings.LANDING} component={Landing} /> 
         <Stack.Screen name={navigationStrings.LOGINSCREEN} component={LoginScreen} /> 
+        <Stack.Screen name={navigationStrings.LATESTNEWS} component={LatestNews} />
       </Stack.Navigator>
     );
   }
