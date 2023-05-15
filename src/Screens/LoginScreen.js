@@ -20,18 +20,22 @@ export default function LoginScreen({ navigation }) {
   const [phone,setphone]=useState('')
  
   const [showPassword, setShowPassword] = useState(true);
-
+console.log(auth)
 
 
   useEffect(() => {
+    // Subscribe to changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-    navigation.replace("Home")
+        // Navigate to the Home screen if the user is already authenticated
+        navigation.replace("Home");
       }
-    })
+    });
 
-    return unsubscribe
-  }, [])
+    // Unsubscribe from the listener when the component unmounts
+    return unsubscribe;
+  }, [navigation]);
+  
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
@@ -108,7 +112,7 @@ else{
         //onPress={handlePhoneSignUp}
         style={{ marginTop: 24 }}
       >
-       Phone Sign Up
+       Phone Sign In
       </Button>
       {/* <Button mode="contained" onPress={onLoginPressed}>
         Login with Phone Number

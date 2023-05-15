@@ -10,7 +10,7 @@ import TextInput from '../components/TextInput';
 import firebase from 'firebase/compat/app';
 
 
-const TrendingNews = ({navigation, route}) => {
+const ForYou = ({navigation, route}) => {
 
   const [news, setNews] = useState([]);
   const [copiedText, setCopiedText] = useState('');
@@ -26,7 +26,7 @@ const TrendingNews = ({navigation, route}) => {
   }, []);
  
   const getNews = () => {
-    fetch('https://c269-154-192-46-55.ngrok-free.app/TrendingNewsHndL',
+    fetch('https://c269-154-192-46-55.ngrok-free.app/for_you',
   {
     method:'GET',
     // headers: {
@@ -43,8 +43,8 @@ const TrendingNews = ({navigation, route}) => {
     )
       .then(res => res.json())
       .then(output => {
-        console.log(output.TrendingHeadings,"LIST OF HEADINGS" );
-      setNews(output.TrendingHeadings);
+        console.log(output.IntrestBased,"LIST OF HEADINGS" );
+      setNews(output.IntrestBased);
       // console.log(news);
       });
       
@@ -53,10 +53,9 @@ const TrendingNews = ({navigation, route}) => {
 
     const handleback=()=>{
   
-        navigation.replace("Home")
+        navigation.replace("ForYou")
       }
       function handleSubmit(data) {
-        console.log(data,"Trending news")
         navigation.navigate('NewsDetails', {data});
       }
       return (
@@ -76,21 +75,26 @@ const TrendingNews = ({navigation, route}) => {
               color: '#6F3D6C',
               fontSize: 30,
               fontWeight: '900',
+              marginLeft: 5,
               marginTop: 40,
               marginBottom:20,
               paddingLeft:10,
+           
             }}>
             Headlines
           </Text>
-         <ScrollView>
+         <ScrollView
+         
+         >
          <View>
             <FlatList
               data={news}
               renderItem={({item, index}) => {
                 return (
                   <TouchableOpacity
+                
                     style={{
-                    
+                      selectable:true,
                       padding:5,
                       borderColor: '#000',
                   borderWidth: 1,
@@ -101,16 +105,17 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls1); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls1);
-                    }}
-                   
+                   // onPress={()=>handleSubmit(item.Urls1)
+                      onPress={() => {
+                        Clipboard.setString(item.Urls1); // copy the text of item.Urls1 to clipboard
+                        handleSubmit(item.Urls1);
+                      }}
+                    
                     >
                 
                     <View style={{padding: 10}}>
                       <Text
-                   
+                    selectable={true}
                         style={{
                           selectable: 'true',
                           color: '#000',
@@ -118,6 +123,7 @@ const TrendingNews = ({navigation, route}) => {
                           fontSize: 18,
                           fontWeight: '700',
                         }}>
+                         
                         {item.Urls1}
                       {item.Heading1}
                       </Text>
@@ -149,11 +155,50 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls2); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls2);
-                    }}
+                    onPress={()=>handleSubmit(item.Urls1)}
+                    >
+                
+                    <View style={{padding: 10}}>
+                      <Text
                    
+                        style={{
+                          selectable: 'true',
+                          color: '#000',
+                          // width: '45%',
+                          fontSize: 18,
+                          fontWeight: '700',
+                        }}>
+                        {item.Urls1}
+                      {item.Heading1}
+                      </Text>
+                    
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+    
+         
+          <View style={{paddingTop: 40}}>
+            <FlatList
+              data={news}
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                    
+                      padding:5,
+                      borderColor: '#000',
+                  borderWidth: 1,
+                      color: '#fff',
+                      borderColor: '#000',
+                      fontSize: 18,
+                         borderRadius: 10,
+                      backgroundColor:"#6F3D6C",
+                      fontWeight: '700',
+                    }}
+                    onPress={()=>handleSubmit(item.Urls2)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -196,11 +241,7 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls3); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls3);
-                    }}
-               
+                    onPress={()=>handleSubmit(item.Urls3)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -215,52 +256,6 @@ const TrendingNews = ({navigation, route}) => {
                         }}>
                         {item.Urls3}
                       {item.Heading3}
-                      </Text>
-                    
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-    
-         
-          <View style={{paddingTop: 40}}>
-            <FlatList
-              data={news}
-              renderItem={({item, index}) => {
-                return (
-                  <TouchableOpacity
-                    style={{
-                    
-                      padding:5,
-                      borderColor: '#000',
-                  borderWidth: 1,
-                      color: '#fff',
-                      borderColor: '#000',
-                      fontSize: 18,
-                         borderRadius: 10,
-                      backgroundColor:"#6F3D6C",
-                      fontWeight: '700',
-                    }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls4); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls4);
-                    }}
-                    >
-                
-                    <View style={{padding: 10}}>
-                      <Text
-                   
-                        style={{
-                          selectable: 'true',
-                          color: '#000',
-                          // width: '45%',
-                          fontSize: 18,
-                          fontWeight: '700',
-                        }}>
-                        {item.Urls4}
-                      {item.Heading4}
                       </Text>
                     
                     </View>
@@ -289,15 +284,12 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls5); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls5);
-                    }}
+                    onPress={()=>handleSubmit(item.Urls4)}
                     >
                 
                     <View style={{padding: 10}}>
                       <Text
-                   
+                      selectable= {true}
                         style={{
                           selectable: 'true',
                           color: '#000',
@@ -305,8 +297,8 @@ const TrendingNews = ({navigation, route}) => {
                           fontSize: 18,
                           fontWeight: '700',
                         }}>
-                        {item.Urls5}
-                      {item.Heading5}
+                        {item.Urls4}
+                      {item.Heading4}
                       </Text>
                     
                     </View>
@@ -335,10 +327,50 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls6); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls6);
+                    onPress={()=>handleSubmit(item.Urls5)}
+                    >
+                
+                    <View style={{padding: 10}}>
+                      <Text
+                   
+                        style={{
+                          selectable: 'true',
+                          color: '#000',
+                          // width: '45%',
+                          fontSize: 18,
+                          fontWeight: '700',
+                        }}>
+                        {item.Urls5}
+                      {item.Heading5}
+                      </Text>
+                    
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+    
+          
+          <View style={{paddingTop: 40}}>
+            <FlatList
+              data={news}
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                    
+                      padding:5,
+                      borderColor: '#000',
+                  borderWidth: 1,
+                      color: '#fff',
+                      borderColor: '#000',
+                      fontSize: 18,
+                         borderRadius: 10,
+                      backgroundColor:"#6F3D6C",
+                      fontWeight: '700',
                     }}
+                    onPress={()=>handleSubmit(item.Urls6)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -381,10 +413,7 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls7); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls7);
-                    }}
+                    onPress={()=>handleSubmit(item.Urls7)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -427,10 +456,7 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls8); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls8);
-                    }}
+                    onPress={()=>handleSubmit(item.Urls8)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -443,7 +469,7 @@ const TrendingNews = ({navigation, route}) => {
                           fontSize: 18,
                           fontWeight: '700',
                         }}>
-                        {item.Urls8}
+                        {item.Urls18}
                       {item.Heading8}
                       </Text>
                     
@@ -473,10 +499,7 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls9); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls9);
-                    }}
+                    onPress={()=>handleSubmit(item.Urls9)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -489,7 +512,7 @@ const TrendingNews = ({navigation, route}) => {
                           fontSize: 18,
                           fontWeight: '700',
                         }}>
-                        {item.Urls19}
+                        {item.Urls9}
                       {item.Heading9}
                       </Text>
                     
@@ -500,7 +523,6 @@ const TrendingNews = ({navigation, route}) => {
             />
           </View>
     
-          
           <View style={{paddingTop: 40}}>
             <FlatList
               data={news}
@@ -519,10 +541,7 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls10); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls10);
-                    }}
+                    onPress={()=>handleSubmit(item.Urls10)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -564,55 +583,7 @@ const TrendingNews = ({navigation, route}) => {
                       backgroundColor:"#6F3D6C",
                       fontWeight: '700',
                     }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls11); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls11);
-                    }}
-                    >
-                
-                    <View style={{padding: 10}}>
-                      <Text
-                   
-                        style={{
-                          selectable: 'true',
-                          color: '#000',
-                          // width: '45%',
-                          fontSize: 18,
-                          fontWeight: '700',
-                        }}>
-                        {item.Urls11}
-                      {item.Heading11}
-                      </Text>
-                    
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-    
-          <View style={{paddingTop: 40}}>
-            <FlatList
-              data={news}
-              renderItem={({item, index}) => {
-                return (
-                  <TouchableOpacity
-                    style={{
-                    
-                      padding:5,
-                      borderColor: '#000',
-                  borderWidth: 1,
-                      color: '#fff',
-                      borderColor: '#000',
-                      fontSize: 18,
-                         borderRadius: 10,
-                      backgroundColor:"#6F3D6C",
-                      fontWeight: '700',
-                    }}
-                    onPress={() => {
-                      Clipboard.setString(item.Urls12); // copy the text of item.Urls1 to clipboard
-                      handleSubmit(item.Urls12);
-                    }}
+                    onPress={()=>handleSubmit(item.Urls11)}
                     >
                 
                     <View style={{padding: 10}}>
@@ -624,8 +595,8 @@ const TrendingNews = ({navigation, route}) => {
                           fontSize: 18,
                           fontWeight: '700',
                         }}>
-                        {item.Urls12}
-                      {item.Heading12}
+                        {item.Urls11}
+                      {item.Heading11}
                       </Text>
                     
                     </View>
@@ -649,7 +620,7 @@ const TrendingNews = ({navigation, route}) => {
                </Background> 
               )
 }
-export default TrendingNews
+export default ForYou
 
 const styles = StyleSheet.create({
       button: {

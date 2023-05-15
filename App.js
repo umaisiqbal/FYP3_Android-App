@@ -153,7 +153,10 @@ import {Landing} from './src/Screens';
 import {LogBox} from 'react-native';
 import MainStack from './src/Navigation/MainStack';
 import TabRoutes from './src/Navigation/TabRoutes';
+import { useEffect } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 const App = () => {
+ 
   LogBox.ignoreAllLogs();
   return (
     <NavigationContainer>

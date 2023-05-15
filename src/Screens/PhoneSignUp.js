@@ -1,17 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {ActivityIndicator, Text} from 'react-native-paper';
-import Background from '../components/Background';
-import Logo from '../components/Logo';
-import Header from '../components/Header';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
-import BackButton from '../components/BackButton';
-import {firebaseConfig} from '../../firebase';
 import {theme} from '../core/theme';
-import firebase from 'firebase/compat';
 import auth from '@react-native-firebase/auth';
-// import { FirebaseRecaptchaVerifierModal } from 'react-native-firebase-recaptcha';
 import {useNavigation} from '@react-navigation/core';
 
 const PhoneSignUp = () => {
@@ -76,42 +69,38 @@ const [loading,setloading]=useState(false);
       :null}
       <View style={style.container}>
         <TouchableOpacity
-        //onPress={handleback}
-        // style={style.button1}
+
         >
           <View style={style.icon}>
-            {/* <Ionicons name="arrow-back" size={35} color="black" marginTop={90}/> */}
+   
           </View>
         </TouchableOpacity>
-
-        {/* //    ref={recapcthaVerifier}
-    //   firebaseConfig={firebaseConfig}  */}
-
-        <Text style={style.otpText}>Login Using Otp</Text>
-
-        <TextInput
-          placeholder="Phone Number With Country Code"
-          onChangeText={text => setPhoneNumber(text)}
-          keyboardType="phone-pad"
-          autoCompleteType="tel"
-          style={style.textInput}
-        />
-
-        {/* onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))} */}
-        <TouchableOpacity
-          style={style.sendVerification}
-          onPress={() => sendVerification()}>
-          <Text style={style.buttonText}>send verifrication</Text>
-        </TouchableOpacity>
+        <Text style={style.otpText}>Login Using Otp</Text> 
+<TextInput
+        placeholder="Phone Number With Country Code"
+        onChangeText={text => setPhoneNumber(text)}
+        keyboardType="phone-pad"
+        autoCompleteType="tel" 
+      />
+        <Button
+        mode="contained"
+        onPress={() => sendVerification()}
+        style={{ marginTop: 24,width:190 }}
+      >
+        send verifrication
+      </Button> 
         <TextInput
           placeholder="Confirm Code"
           onChangeText={text => setCode(text)}
           keyboardType="number-pad"
-          style={style.textInput}
         />
-        <TouchableOpacity style={style.sendVerification} onPress={confirmCode}>
-          <Text style={style.buttonText}>confirm verifrication</Text>
-        </TouchableOpacity>
+           <Button
+        mode="contained"
+        onPress={confirmCode}
+        style={{ marginTop: 24,width:250 }}
+      >
+        confirm verifrication
+      </Button>
       </View>
     </>
   );
@@ -170,5 +159,13 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     margin: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    marginTop: 4,
+  },
+  link: {
+    fontWeight: 'bold',
+    color: theme.colors.primary,
   },
 });

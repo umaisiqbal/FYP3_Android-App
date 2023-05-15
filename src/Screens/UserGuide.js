@@ -1,38 +1,65 @@
-import { View, Text,StyleSheet,ScrollView } from 'react-native'
-import React from 'react'
+
+import {View, Text, Image, TouchableOpacity,StyleSheet,SafeAreaView,Clipboard,ScrollView} from 'react-native';
+import {React,useState} from 'react';
+import {useRoute} from '@react-navigation/native';
+
 import { theme } from '../core/theme'
 const UserGuide = () => {
+  const [copiedText, setCopiedText] = useState('');
+  const copyToClipboard = () => {
+    Clipboard.setString(route.params.data.content);
+  };
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getString();
+    setCopiedText(text);
+  };
+  const route = useRoute();
+
   return (
     <View>
       <ScrollView>
-          <Text style={styles.Text}>
-            Some objectives are described here:
-          <Text style={styles.titleText}>{'\n'} •	We should have an android application.
-          {'\n'}•	To take input content from the textbook we need to use OCR.
-
-
-      {'\n'} •	To get authentic answers we need BERT from which we will get dataset.</Text>
-
-      {'\n'} •	Easier GUI for an average user.
-      {'\n'}  Within the first five minutes of an interaction, the user should be able to understand the application’s use.
-      {'\n'}    •	Provide best set of answers in less time.
-      {'\n'} {'\n'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}--------------------******************--------------------
+          <Text style={styles.Text} selectable={true}>
+          {'\n'} {'\n'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}--------------------******************--------------------
       {'\n'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}--------------------******************--------------------
+          <Text style={styles.titleText}>{'\n'}  	Please Signup/ Login to the application
+          {'\n'} 	So at the start the Dashboard will appear 
+
+
+      {'\n'} 	Three news categories will be shown.</Text>
+
+      {'\n'}  Click anyone that you want to read
+      {'\n'}  The news will appear after some time with their urls.
+      {'\n'}  You can click any heading to see the details of news.
+     
       
-      {'\n'}{'\n'}   This is the brief explanation of our application in which we provide the guidelines to interact with application and there features:
+      {'\n'}{'\n'}  If you want a summary of that news copy the content of that news and paste it in the input field of summary screen
           
-          {'\n'}1.	‘Signup’ enables the user to register himself with our app. If the user has already signed in then he doesn’t need to sign in again.
-            {'\n'}2.	Once the user registered himself using sign up method, he can ‘login’ anytime he like log in is generally an identification and authentication phase in which user gives password and username to the system and the system will give him the to the app.
-            {'\n'} 3.	In this methodology user will ask questions from the app using ‘scanning technique’. He will open a camera of the mobile phone and start scanning the parts which he wants answers to. After the scanning is done app will display the desired results from the dataset.
-            {'\n'} 4.	In this process the user will ask question from the app by using ‘typing technique’. He or She will type the question on the keypad of the app and the app will find desired results for them.
-            {'\n'} 5.	‘Reading answers from GUI’, when the questions are being asked by the user. The app will provide desired result and these results will be shown on the screen mobile so that user can easily read answers from there.
-            {'\n'} 6.	‘Saving answer’, after process of question, app will provide desired answers to the users. These answers will be saved for after usage. Because it is a very bad practice that user is searching for same answer again and again.
-            {'\n'}  7.	In this use case ‘user information will be update’; if any new user signup or delete account from our application then their records will be update by our system so by doing this memory will be save and fully utilized.
-            {'\n'} 8.	‘Logout’, once the user done all the work he can logout from system for safety and also remember the information to login again.
+          {'\n'}    Click on submit button and you will get the summary of news.
+            {'\n'}	If you want to save it click on save button and this will be saved in your database and you can see it in future in drawer navigation bar screen named as “Saved Summary”.
+            {'\n'} 	If you want to get the audio of that news paste the same content in input field of audio screen and click on translate button then you will get the audio of news.
+            {'\n'} 	The recommendation of your is on the bottom nav screen named as “For You” so you can get your recommended news.
+            {'\n'} 	You can also give feedback to the admin by clicking feedback screen in drawer navigation and put your feedback and click the submit button.
+            {'\n'} 	Your feedback will be saved automatically and will appear below in feedback screen.
+            {'\n'} 	The responses and notifications from admin will appear in Notification Screen.
+            {'\n'} 	The live chat option also available in “Support” screen by clicking on live chat button you will directed to the external chat platform and then easily talk with our admin panel.
+            {'\n'}  You can sign-out on clicking sign-out button in drawer navigation bar
             {'\n'}{'\n'}{'\n'}_______________________________________________________
 
           </Text>
         </ScrollView>
+        <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={() => copyToClipboard()}>
+          <Text>hii</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => fetchCopiedText()}>
+          <Text>View copied text</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.copiedText}>{copiedText}</Text>
+      </View>
+    </SafeAreaView>
+
     </View>
   )
 }
@@ -51,5 +78,10 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: theme.colors.primary,
     },
+    copiedText: {
+      marginTop: 10,
+      color: 'red',
+    },
+  
   })
   

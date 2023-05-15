@@ -9,7 +9,7 @@ import { auth } from '../../firebase'
 
 const SavedNews = () => {
   const user=auth.currentUser.uid;
-  const itemRef = firebase.database().ref(user+"/Feedback" )
+  const itemRef = firebase.database().ref(user+"/Summary" )
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [text, setText] = useState('')
@@ -25,14 +25,14 @@ const SavedNews = () => {
 
     function addHandle() {
         if (isUpdating) {
-            itemRef.child(currentKey).update({ name,text, email});
+            itemRef.child(currentKey).update({ name,text, news});
             fetchData()
             setText('')
             setEmail('')
             setName('')
         }
         if (!isUpdating) {
-            itemRef.push({ text,email,name });
+            itemRef.push({ text,email,news });
             fetchData()
             setText('')
             setEmail('')
@@ -50,13 +50,13 @@ const SavedNews = () => {
             for (let x in a_) {
                 console.log(x)
                 console.log(a_[x])
-                item.push({ text: a_[x].text, key: x ,email:a_[x].email,   name: a_[x].name})
+                item.push({ text: a_[x].text, key: x ,email:a_[x].email,   name: a_[x].news})
             }
             setListt(item)
         })
     }
 
-    function handleUpdate(key, text,email,name) {
+    function handleUpdate(key, text,email,news) {
         setCurrentKey(key)
         setIsUpdating(true)
         setText(text)

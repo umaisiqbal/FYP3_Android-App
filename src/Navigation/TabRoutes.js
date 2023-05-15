@@ -1,25 +1,17 @@
-
 import { View, Text,StyleSheet,Image } from 'react-native'
 import React from 'react'
 import {Audios, Live, NewsPaper, Profile, Summary} from '../Screens';
-import { Home } from '../Screens';
-import LiveStack from './LiveStack';
-import HomeStack from './HomeStack';
-import PorfileStack from './ProfileStack';
-import LandingStack from './LandingStack';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import navigationStrings from '../constants/navigationStrings';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import imagePath from '../constants/imagePath';
-import LoginScreen from '../Screens/NewsPaper';
-import Audio from '../Screens';
-import ProfileStack from './ProfileStack';
 import DrawerNav from './DrawerNav';
 import LatestNews from '../Screens/LatestNews';
 import TrendingNews from '../Screens/TrendingNews';
 import SearchedNews from '../Screens/SearchedNews';
-import SearchedVideo from '../Screens/SearchedVideo';
+import Loc from '../Screens/Locs';
+import ForYou from '../Screens/ForYou';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const HomeStacks = () => {
@@ -52,26 +44,12 @@ const HomeStacks = () => {
         })}
       />
     
+     
+
     </Stack.Navigator>
   );
 };
-const LiveStacks = () => {
-  <Stack.Navigator>
-     <Stack.Screen
-  name="Live"
-  component={Live}
-  options={{headerShown: false}}
-/>
-  <Stack.Screen
-  name="SearchedVideo"
-  component={SearchedVideo}
-  options={({route}) => ({
-    title: route.params?.title,
-  })}
-/>
- 
-</Stack.Navigator>
-}
+
 export default function TabRoutes() {
   
   return (
@@ -112,14 +90,14 @@ export default function TabRoutes() {
           );
         }
       }} />
-      <Tab.Screen name={navigationStrings.LIVE} component={LiveStack} options={{
+      <Tab.Screen name="ForYou" component={ForYou} options={{
         tabBarIcon: ({ focused }) => {
           return (
             <Image
               style={{
                 tintColor: focused ? 'purple' : '#924FF2'
               }}
-              source={imagePath.icLive} />
+              source={imagePath.cat} />
           );
         }
       }} />

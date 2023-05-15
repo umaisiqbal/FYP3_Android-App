@@ -15,5 +15,6 @@ export default{
     icHistory: require('../assests/images/history.png'),
     icLog: require('../assests/images/logout.png'),
     icback: require('../assests/images/back.png'),
-    icnoti: require('../assests/images/noti.png')
+    icnoti: require('../assests/images/noti.png'),
+    cat:require('../assests/images/cat.png')
 }

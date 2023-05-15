@@ -26,5 +26,11 @@ SEARCHEDNEWS:"SearchedNews",
 TRENDINGVIDEO:"TrendingVideo",
 SEARCHEDVIDEO:"SearchedVideo",
 NEWSDETAILS:"NewsDetails",
-CATEGORYNEWS:"CategoryNews"
+CATEGORYNEWS:"CategoryNews",
+SPLASHSCREEN:"SplashScreen",
+BBCNEWS:"BbcNews",
+ALJNEWS:"AljNews",
+CNNNEWS:"CnnNews",
+LOC:"Loc",
+FORYOU:"ForYou"
     }

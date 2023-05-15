@@ -12,14 +12,14 @@ const CategoryNews = () => {
 
   const getNews = () => {
     fetch(
-      'https://saurav.tech/NewsAPI/top-headlines/category/' +
+      'http://c796-175-107-255-74.ngrok.io/TrendingNewsHndL' +
         route.params.category +
         '/in.json',
     )
       .then(res => res.json())
       .then(output => {
         console.log(output);
-        setNews(output.articles);
+        setNews(output.TreandingHeadings);
       });
   };
   return (

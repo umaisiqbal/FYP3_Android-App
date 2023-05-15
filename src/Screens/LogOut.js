@@ -38,7 +38,7 @@ navigation.replace("Landing")
       <Button
         mode="contained"
         onPress={logout}
-        style={{marginTop: 10}}>
+        style={{marginTop: 10,width: '35%'}}>
        Logout
       </Button>
     </Background>

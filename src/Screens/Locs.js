@@ -12,7 +12,7 @@ import { ref, set, push, onValue, get, child } from "firebase/database";
 import { useState } from 'react'
 import CnnNews from './CnnNews'
 import AljNews from './AljNews'
-const SearchedNews = ({ navigation }) => {
+const Loc = ({ navigation }) => {
   const [count, setCount] = useState(0);
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
@@ -36,10 +36,7 @@ const SearchedNews = ({ navigation }) => {
       navigation.replace('AljNews');
 
   };
-  const handleback=()=>{
-  
-    navigation.replace("Home")
-  }
+
   return (
 
     <View style={styles.container}>
@@ -108,18 +105,12 @@ const SearchedNews = ({ navigation }) => {
             source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSGkKRKEoaiv8A4eM_LRdwzrgvBaTU9NTiPw&usqp=CAU' }}
             resizeMode="cover"
             style={styles.image} />
-        </Swiper>
-        <TouchableOpacity 
-              mode="contained"
-              onPress={handleback}
-              style={ styles.button1}>
-                  <Text style={styles.link}>Back</Text>
-              </TouchableOpacity></Background>
+        </Swiper></Background>
     </View>
   )
 }
 
-export default SearchedNews
+export default Loc
 const styles = StyleSheet.create({
   container: {
     flex: 3,
@@ -149,15 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#10232A",
     alignItems: "center",
     justifyContent: "center"
-  },
-  button1: {
-    backgroundColor: 'purple',
-    width: '25%',
-   
-    borderRadius: 60,
-    alignItems: 'center',
-  padding:15,
-  marginBottom:5
   },
   // container1:{
   //   flex:1,
